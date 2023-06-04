@@ -16,3 +16,12 @@ You need at least two modules to work with the secret management:
 
 - Microsoft SecretManagement Module
 - Vault Module
+
+
+## Microsoft's SecretStore Module
+
+Some basic info:
+
+- Vault stored locally on your machine
+- User specific - One vault per User across all instances/versions of PowerShell
+- Microsoft are working on an AllUser scope for SecretStore module
