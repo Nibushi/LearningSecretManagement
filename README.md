@@ -25,3 +25,14 @@ Some basic info:
 - Vault stored locally on your machine
 - User specific - One vault per User across all instances/versions of PowerShell
 - Microsoft are working on an AllUser scope for SecretStore module
+
+## Where are secrets stored
+
+They are stored in C:\Users\\<username\>\AppData\Local\Microsoft\PowerShell\SecretManagement
+
+Interesting files in this location:
+
+- \secretvaultregistry\vaultinfo - Contains high level information about the different vaults you have access to#
+- \localstore - stores the encrypted information/secrets per user
+
+It is possible to share vaults between users but it is not how the module was designed to be used.
