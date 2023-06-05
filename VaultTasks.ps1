@@ -41,6 +41,21 @@ Set-SecretStoreConfiguration -PasswordTimeout 1800
 
 #region - Secret Management Tasks
 
+# Add a secret
+# Secure Strings aren't stored in PowerShell history file
+Set-Secret -Name MyTextString -Secret "This is just some text"
+Set-Secret -Name MyAPIKey -Secret "1ba821f1-bd27-429f-b7b3-4de3b2502027"
 
+# Retrieve a Secret
+Get-Secret MyTextString #Returns this as a System.Security.SecureString
+
+# Save secret to a variable
+$a = Get-Secret MyTextString
+
+# Store a PSCredential Object as a secret
+Set-Secret -Name AdminAsCred -Secret (Get-Credential)
+
+# Remove a secret
+Remove-Secret MyAPIKey -Vault VaultDemo
 
 #endregion
