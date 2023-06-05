@@ -59,3 +59,37 @@ Set-Secret -Name AdminAsCred -Secret (Get-Credential)
 Remove-Secret MyAPIKey -Vault VaultDemo
 
 #endregion
+
+#region - make sure you enter the right data
+
+# Secret Management does not do validation on credential information entered
+# Ensure you don't enter a bad password
+Set-Secret CredWithBadPassword (Get-Credential domain\aperson)
+
+# Attempt to connect with credential with bad password
+Enter-PSSession DC01 -Credential (Get-Secret CredWithBadPassword)
+
+(Get-Secret CredWithBadPassword).Password | ConvertFrom-SecureString -AsPlainText
+
+#endregion
+
+#region - use multiple secrets in code
+
+New-PSSession DC01 -Credential (Get-Secret -Name CredMKAdmin -Vault VaultDemo)
+New-PSSession EXCH01 -Credential (Get-Secret -Name CredMParker -Vault VaultDemo)
+$s = Get-PSSession
+
+Invoke-Command $s {Write-Output "$(whoami) on $(hostname)"}
+
+#endregion
+
+#region - Change user creds when admin privilege needed
+
+# Get AD Info - no admin privileges required
+Get-ADUser salexander -Properties Manager
+
+# Change AD Info - - requires admin privileges
+Set-ADUser salexander -Manager aperson -Credential (Get-Secret MyAdminAccount)
+Set-ADUser salexander -Manager $null -Credential (Get-Secret MyAdminAccount)
+
+#endregion
