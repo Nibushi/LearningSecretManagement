@@ -36,3 +36,25 @@ Interesting files in this location:
 - \localstore - stores the encrypted information/secrets per user
 
 It is possible to share vaults between users but it is not how the module was designed to be used.
+
+## SecretStore Vault (Microsoft)
+
+- Vault is tied to the context of the user and the machine it was created on
+- Cannot be shared or easily moved to another machine
+- Can create multiple vaults under the same profile
+- For automation consider
+    - Set Authentication to None, this turns off the requirements to provide a password
+    - Set Interaction to None, Prevents scripts from hanging if password is turned back on
+        - (Interaction = none) + (Password = Required) = Error Thrown which will stop script
+- Security is by securing service account with strong password and monitoring logins made by this account and this machine
+- When retrieving a secret using an automated script, specify the vault parameter, don't assume the vault is set as the default
+
+```powershell-interactive
+    Set-SecretStoreConfiguration -Authentication None -Interaction None
+```
+
+- As SecretStore Module is tied to user and computer no additional `VaultParameters` are required to set up the vault
+
+```powershell-interactive
+    Register-SecretVault -ModuleName Microsoft.PowerShell.SecretStore -Name SQLHealthCheck
+```
