@@ -39,6 +39,8 @@ It is possible to share vaults between users but it is not how the module was de
 
 ## SecretStore Vault (Microsoft)
 
+[Getting Started with the SecretStore Module](https://learn.microsoft.com/en-us/powershell/utility-modules/secretmanagement/get-started/using-secretstore?view=ps-modules)
+
 - Vault is tied to the context of the user and the machine it was created on
 - Cannot be shared or easily moved to another machine
 - Can create multiple vaults under the same profile
